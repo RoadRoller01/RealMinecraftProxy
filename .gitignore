@@ -1,8 +1,22 @@
+#idea
+/.idea
+/*/out
+/classes
+*.iml
+
+
+#gradle
+/build
+/.gradle
+/*/build
+/*/.gradle
+
 # Compiled class file
 *.class
 
 # Log file
 *.log
+*.log.gz
 
 # BlueJ files
 *.ctxt
