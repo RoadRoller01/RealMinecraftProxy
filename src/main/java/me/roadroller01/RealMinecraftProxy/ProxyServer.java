@@ -2,12 +2,8 @@ package me.roadroller01.RealMinecraftProxy;
 
 import io.netty.bootstrap.ServerBootstrap;
 
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
@@ -46,9 +42,16 @@ public class ProxyServer {
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class) // (3)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
+                    .childHandler(new ChannelInitializer<Channel>() { // (4)
                         @Override
-                        public void initChannel(SocketChannel ch){
+                        public void initChannel(Channel ch){
+                            try {
+                                ch.config().setOption(ChannelOption.TCP_NODELAY, true);
+                            }
+                            catch (ChannelException channelException) {
+                                // empty catch block
+                            }
+
                             ch.pipeline().addLast(
                                     new LoggingHandler(LogLevel.INFO),
                                     new ClientConnectionHandler(serverAddress,P2S)
@@ -56,8 +59,6 @@ public class ProxyServer {
                         }
                     })
                       .childOption(ChannelOption.AUTO_READ, false);
-//                    .option(ChannelOption.SO_BACKLOG, 128)          // (5)
-//                    .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
 
 
             // Bind and start to accept incoming connections.

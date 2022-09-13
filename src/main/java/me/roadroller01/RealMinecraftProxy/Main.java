@@ -2,10 +2,11 @@ package me.roadroller01.RealMinecraftProxy;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String serverAddress = "mc.hypixel.net"; // 127.0.0.1
+        String serverAddress = "127.0.0.1"; // 127.0.0.1
         int P2S = 25565; // 25565
         int C2P = 255;
 
+        // handle user args
         for (int i = 0; i < args.length; i++) {
             if (args[i].equalsIgnoreCase("-help") || args[i].equalsIgnoreCase("-h")){
                 // TODO

@@ -4,11 +4,11 @@ import io.netty.channel.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ProxyClient extends ChannelInboundHandlerAdapter {
+public class ProxyConnectionHandler extends ChannelInboundHandlerAdapter {
 
     private final static Logger LOGGER = LogManager.getLogger();
     private final Channel clientChannel;
-    public ProxyClient(Channel clientChannel) {
+    public ProxyConnectionHandler(Channel clientChannel) {
         this.clientChannel = clientChannel;
     }
 

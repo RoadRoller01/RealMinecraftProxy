@@ -28,7 +28,7 @@ public class ClientConnectionHandler extends ChannelInboundHandlerAdapter { // (
         Bootstrap b = new Bootstrap();
         b.group(clientChannel.eventLoop())
                 .channel(ctx.channel().getClass())
-                .handler(new ProxyClient(clientChannel))
+                .handler(new ProxyConnectionHandler(clientChannel))
                 .option(ChannelOption.AUTO_READ, false);
         ChannelFuture f = b.connect(serverAddress, P2S);
         serverChannel = f.channel();
@@ -85,6 +85,7 @@ public class ClientConnectionHandler extends ChannelInboundHandlerAdapter { // (
 
     static void closeOnFlush(Channel ch) {
         if (ch.isActive()) {
+            LOGGER.info(Thread.currentThread().getStackTrace()[2].toString());
             // TODO it should send minecraft disconnect packet
             ch.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
         }
